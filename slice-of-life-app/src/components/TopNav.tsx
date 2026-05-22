@@ -13,8 +13,9 @@ const NAV = [
   { num: "07", href: "/locations",    label: "Locations" },
   { num: "08", href: "/code",         label: "The Code" },
   { num: "09", href: "/ask",          label: "Cortex" },
-  { num: "10", href: "/architecture", label: "ODI" },
-  { num: "11", href: "/pipeline",     label: "Pipeline" },
+  { num: "10", href: "/related",      label: "Related" },
+  { num: "11", href: "/architecture", label: "ODI" },
+  { num: "12", href: "/pipeline",     label: "Pipeline" },
 ];
 
 export default function TopNav() {
