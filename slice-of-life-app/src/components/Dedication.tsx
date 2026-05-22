@@ -1,4 +1,5 @@
 import Image from "next/image";
+import jackPhoto from "../../public/jack.png";
 
 // Dedication card — Jack Chletsos, archivist. Framed as a Miami Metro
 // case file with his photo as the evidence-locker badge, NOT as a
@@ -21,10 +22,8 @@ export default function Dedication() {
                 <span className="corner-tl" />
                 <span className="corner-br" />
                 <Image
-                  src="/jack.png"
+                  src={jackPhoto}
                   alt="Jack Chletsos"
-                  width={1182}
-                  height={1400}
                   className="block w-full h-auto select-none"
                   priority
                 />
