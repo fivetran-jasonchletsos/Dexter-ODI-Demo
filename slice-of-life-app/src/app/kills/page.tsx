@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { kills, canonLabels, methodLabels, locationLabels, victimTypeLabels,
          type Canon, type MethodKey, type LocationKey, type VictimType } from "@/lib/kills";
 
@@ -12,6 +12,8 @@ export default function KillsPage() {
   const [vtype,  setVtype]  = useState<string>(ANY);
   const [code,   setCode]   = useState<string>(ANY);
   const [query,  setQuery]  = useState<string>("");
+  const [spotlightId, setSpotlightId] = useState<string | null>(null);
+  const rowRefs = useRef<Record<string, HTMLTableRowElement | null>>({});
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -25,16 +27,24 @@ export default function KillsPage() {
     });
   }, [canon, method, vtype, code, query]);
 
+  const surpriseMe = () => {
+    const pool = filtered.length > 0 ? filtered : kills;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    setSpotlightId(pick.id);
+    const row = rowRefs.current[pick.id];
+    if (row) row.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   return (
     <main className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">Kills</p>
-        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">{kills.length} on-screen kills</h1>
-        <p className="serif italic text-ash/65 mb-10 max-w-3xl">
-          One row per kill in gold.fct_kill. Filter by canon, method, victim type, and Code of Harry compliance.
+        <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">Case file</p>
+        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">{kills.length} confirmed kills</h1>
+        <p className="serif text-ash/75 mb-10 max-w-3xl">
+          Filter by canon, method, victim type, or whether the kill held up under Harry&apos;s Code. Hit &ldquo;Pull a slide&rdquo; to spotlight a random one.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 mb-4">
           <FilterSelect label="Canon"           value={canon}  onChange={setCanon}  options={[[ANY,"Any canon"], ...Object.entries(canonLabels)]}        />
           <FilterSelect label="Method"          value={method} onChange={setMethod} options={[[ANY,"Any method"], ...Object.entries(methodLabels)]}       />
           <FilterSelect label="Victim type"     value={vtype}  onChange={setVtype}  options={[[ANY,"Any victim type"], ...Object.entries(victimTypeLabels)]}/>
@@ -50,9 +60,17 @@ export default function KillsPage() {
           </label>
         </div>
 
-        <p className="type text-[10px] uppercase tracking-[0.25em] text-ash/55 mb-3">
-          {filtered.length} of {kills.length}
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+          <p className="type text-[10px] uppercase tracking-[0.25em] text-ash/55">
+            {filtered.length} of {kills.length} shown
+          </p>
+          <button
+            onClick={surpriseMe}
+            className="px-4 py-2 type uppercase tracking-[0.2em] text-[11px] bg-slide text-bone hover:bg-signal transition border border-signal/40"
+          >
+            Pull a slide ▸
+          </button>
+        </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -71,7 +89,11 @@ export default function KillsPage() {
             </thead>
             <tbody>
               {filtered.map((k) => (
-                <tr key={k.id} className="border-b border-bone/5 hover:bg-deep/40">
+                <tr
+                  key={k.id}
+                  ref={(el) => { rowRefs.current[k.id] = el; }}
+                  className={`border-b border-bone/5 hover:bg-deep/40 transition-colors ${spotlightId === k.id ? "bg-slide/15 outline outline-1 outline-slide/60" : ""}`}
+                >
                   <td className="py-2 pr-3 text-ash/75">{canonLabels[k.canon]}</td>
                   <td className="py-2 pr-3 font-mono text-ash/85">S{k.season}E{String(k.episode).padStart(2, "0")}</td>
                   <td className="py-2 pr-3 text-bone">

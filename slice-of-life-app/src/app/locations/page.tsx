@@ -26,9 +26,9 @@ export default function LocationsPage() {
     <main className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-6xl">
         <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">Locations</p>
-        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">Where it happens, where it goes</h1>
-        <p className="serif italic text-ash/65 mb-10 max-w-3xl">
-          Kill site versus body disposal. The kill-room dominates the original series; Iron Lake's woods take over in New Blood; Original Sin moves more often through residences and warehouses.
+        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">Where it happens. Where it goes.</h1>
+        <p className="serif text-ash/75 mb-10 max-w-3xl">
+          Kill room dominates the original. Iron Lake&apos;s woods take over in <em>New Blood</em>. Bodies go to open water more than anywhere else — Miami delivers.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6 mb-12">

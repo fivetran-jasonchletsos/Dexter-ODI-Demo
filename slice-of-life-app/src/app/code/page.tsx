@@ -14,9 +14,9 @@ export default function CodePage() {
     <main className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-6xl">
         <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">The Code</p>
-        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">Harry's Code, scored against {kills.length} kills</h1>
-        <p className="serif italic text-ash/65 mb-10 max-w-3xl">
-          The Code is three rules. Each kill in gold.fct_kill carries a single boolean: did all three hold at once? The compliance rate is {(s.rate * 100).toFixed(1)}% — Dexter breaks his own rule a non-trivial share of the time, mostly when emotion overrides ritual.
+        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">Three rules. {kills.length} chances to break them.</h1>
+        <p className="serif text-ash/75 mb-10 max-w-3xl">
+          Dexter holds the Code {(s.rate * 100).toFixed(1)}% of the time. The violations are below — most of them happen when his feelings outrun his ritual.
         </p>
 
         <div className="grid md:grid-cols-3 gap-4 mb-12">

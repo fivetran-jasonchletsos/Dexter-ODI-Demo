@@ -5,10 +5,13 @@ export default function AntagonistsPage() {
   return (
     <main className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-6xl">
-        <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">Antagonists</p>
-        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">{antagonists.length} season antagonists</h1>
-        <p className="serif italic text-ash/65 mb-10 max-w-3xl">
-          The named "Big Bad" of each season. Some Dexter eventually kills; some he doesn't. The kill-by-Dexter column joins gold.fct_kill on victim_name + season.
+        <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">Big Bads</p>
+        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">{antagonists.length} season antagonists.</h1>
+        <p className="serif text-ash/75 mb-2 max-w-3xl">
+          Some Dexter kills. Some he doesn&apos;t. Some he falls in love with.
+        </p>
+        <p className="serif italic text-sm text-ash/55 mb-10 max-w-3xl">
+          Want them ranked? Try the <a href="/tier" className="text-signal hover:text-bone">tier list</a>.
         </p>
 
         <div className="space-y-4">

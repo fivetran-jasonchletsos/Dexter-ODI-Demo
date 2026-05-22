@@ -19,9 +19,9 @@ export default function MethodsPage() {
     <main className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-6xl">
         <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">Methods</p>
-        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">How he kills</h1>
-        <p className="serif italic text-ash/65 mb-10 max-w-3xl">
-          The method distribution across {kills.length} on-screen kills. Knife dominates; M99 (etorphine) is the sedative, not the kill itself, except in the Original Sin and New Blood departures where M99 alone finishes the job.
+        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">How he does it.</h1>
+        <p className="serif text-ash/75 mb-10 max-w-3xl">
+          Knife is the ritual. M99 is the sedative — except in <em>Original Sin</em> and <em>New Blood</em>, where M99 finishes the job alone. Watch the bar chart shift.
         </p>
 
         <div className="evidence-card rounded-sm p-6 mb-12">

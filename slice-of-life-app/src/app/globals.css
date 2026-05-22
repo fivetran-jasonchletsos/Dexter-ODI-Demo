@@ -176,3 +176,94 @@ html, body {
 }
 .code-dot--yes { background: #00b8a9; box-shadow: 0 0 6px rgba(0,184,169,0.55); }
 .code-dot--no  { background: #cf2030; box-shadow: 0 0 6px rgba(207,32,48,0.6); }
+
+/* ────────────────────────────────────────────────────────────────────
+   Blood spatter — an SVG splatter usable as a section background or
+   as an absolutely-positioned decoration. Built from layered radial
+   gradients (cheap, no image) plus a single hand-drawn SVG splat.
+   ──────────────────────────────────────────────────────────────────── */
+
+.blood-spatter {
+  position: relative;
+}
+.blood-spatter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(163,20,35,0.55) 0 2px, transparent 3px),
+    radial-gradient(circle at 18% 22%, rgba(163,20,35,0.40) 0 5px, transparent 6px),
+    radial-gradient(circle at 22% 12%, rgba(163,20,35,0.30) 0 3px, transparent 4px),
+    radial-gradient(circle at 14% 35%, rgba(163,20,35,0.22) 0 2px, transparent 3px),
+    radial-gradient(circle at 80% 78%, rgba(163,20,35,0.45) 0 4px, transparent 5px),
+    radial-gradient(circle at 86% 82%, rgba(163,20,35,0.35) 0 2px, transparent 3px),
+    radial-gradient(circle at 90% 70%, rgba(163,20,35,0.28) 0 3px, transparent 4px),
+    radial-gradient(circle at 70% 88%, rgba(163,20,35,0.25) 0 2px, transparent 3px),
+    radial-gradient(circle at 50% 5%,  rgba(163,20,35,0.40) 0 2px, transparent 3px),
+    radial-gradient(circle at 95% 30%, rgba(163,20,35,0.35) 0 3px, transparent 4px);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.85;
+}
+
+/* Top-edge blood drip — drawn with an SVG path; placed inside a card
+   with overflow:hidden + position:relative. */
+.blood-drip-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: #a31423;
+  box-shadow: 0 2px 6px rgba(163,20,35,0.45);
+}
+.blood-drip-top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background:
+    radial-gradient(circle at 8%  100%, #a31423 0 4px, transparent 5px),
+    radial-gradient(circle at 22% 80%,  #a31423 0 6px, transparent 7px),
+    radial-gradient(circle at 38% 100%, #a31423 0 3px, transparent 4px),
+    radial-gradient(circle at 52% 60%,  #a31423 0 5px, transparent 6px),
+    radial-gradient(circle at 68% 100%, #a31423 0 4px, transparent 5px),
+    radial-gradient(circle at 82% 75%,  #a31423 0 6px, transparent 7px),
+    radial-gradient(circle at 94% 100%, #a31423 0 3px, transparent 4px);
+}
+
+/* Evidence-photo bracket corners — small red Ls in each corner. */
+.evidence-frame {
+  position: relative;
+  border: 2px solid rgba(231, 224, 201, 0.10);
+  background: #06080d;
+  padding: 0.5rem;
+}
+.evidence-frame::before,
+.evidence-frame::after,
+.evidence-frame > .corner-tl,
+.evidence-frame > .corner-br {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #a31423;
+  border-style: solid;
+}
+.evidence-frame::before    { top: -2px;    left: -2px;    border-width: 2px 0 0 2px; }
+.evidence-frame::after     { top: -2px;    right: -2px;   border-width: 2px 2px 0 0; }
+.evidence-frame .corner-tl { bottom: -2px; left: -2px;    border-width: 0 0 2px 2px; }
+.evidence-frame .corner-br { bottom: -2px; right: -2px;   border-width: 0 2px 2px 0; }
+
+/* Dedication-card flicker — slower, more deliberate than the brand mark. */
+@keyframes pulse-blood {
+  0%, 100% { box-shadow: 0 0 0 rgba(163,20,35,0); }
+  50%      { box-shadow: 0 0 18px rgba(163,20,35,0.35); }
+}
+.pulse-blood {
+  animation: pulse-blood 4.5s ease-in-out infinite;
+}

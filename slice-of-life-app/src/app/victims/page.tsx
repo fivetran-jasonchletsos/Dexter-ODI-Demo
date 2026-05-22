@@ -6,9 +6,9 @@ export default function VictimsPage() {
     <main className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-6xl">
         <p className="type text-[10px] uppercase tracking-[0.35em] text-signal mb-3 slide-mark">Victims</p>
-        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">{sorted.length} named victims</h1>
-        <p className="serif italic text-ash/65 mb-10 max-w-3xl">
-          One card per victim with the prior-crimes record that justified the kill under Harry's Code. Sourced from the Dexter Fandom Wiki infobox + body text.
+        <h1 className="serif text-4xl sm:text-5xl text-bone mb-3">{sorted.length} names. {sorted.length} reasons.</h1>
+        <p className="serif text-ash/75 mb-10 max-w-3xl">
+          Every one has a prior-crimes record. Green dot means the kill held up under Harry&apos;s Code. Red means it didn&apos;t.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sorted.map((k) => (

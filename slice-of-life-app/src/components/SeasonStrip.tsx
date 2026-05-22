@@ -12,9 +12,12 @@ export default function SeasonStrip() {
   return (
     <section className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 section-ornament">
+        <div className="mb-3 section-ornament">
           <span className="type text-[11px] uppercase tracking-[0.35em] text-signal">Kills by season</span>
         </div>
+        <p className="serif italic text-sm text-ash/55 mb-10 max-w-3xl">
+          &ldquo;I&apos;m a very neat monster.&rdquo; &nbsp;— Dexter
+        </p>
         <div className="space-y-12">
           {grouped.map(({ canon, seasons }) => (
             <div key={canon}>

@@ -7,13 +7,14 @@ const NAV = [
   { num: "01", href: "/",             label: "Archive" },
   { num: "02", href: "/kills",        label: "Kills" },
   { num: "03", href: "/victims",      label: "Victims" },
-  { num: "04", href: "/antagonists",  label: "Antagonists" },
-  { num: "05", href: "/methods",      label: "Methods" },
-  { num: "06", href: "/locations",    label: "Locations" },
-  { num: "07", href: "/code",         label: "The Code" },
-  { num: "08", href: "/ask",          label: "Cortex" },
-  { num: "09", href: "/architecture", label: "ODI" },
-  { num: "10", href: "/pipeline",     label: "Pipeline" },
+  { num: "04", href: "/antagonists",  label: "Big Bads" },
+  { num: "05", href: "/tier",         label: "Tier" },
+  { num: "06", href: "/methods",      label: "Methods" },
+  { num: "07", href: "/locations",    label: "Locations" },
+  { num: "08", href: "/code",         label: "The Code" },
+  { num: "09", href: "/ask",          label: "Cortex" },
+  { num: "10", href: "/architecture", label: "ODI" },
+  { num: "11", href: "/pipeline",     label: "Pipeline" },
 ];
 
 export default function TopNav() {
