@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Playfair_Display, Special_Elite } from "next/font/google";
+import { JetBrains_Mono, Playfair_Display, Courier_Prime } from "next/font/google";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -9,10 +9,11 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   display: "swap",
 });
-const elite = Special_Elite({
+const courier = Courier_Prime({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-special-elite",
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-courier",
   display: "swap",
 });
 const mono = JetBrains_Mono({
@@ -35,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${elite.variable} ${mono.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${courier.variable} ${mono.variable}`}>
       <body className="miami-noir min-h-screen flex flex-col">
         <TopNav />
         <div className="flex-1">{children}</div>

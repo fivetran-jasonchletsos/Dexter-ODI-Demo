@@ -6,9 +6,9 @@ const SOURCES = [
 
 const LAYERS = [
   { name: "bronze_*",  what: "Raw landings from Fivetran. One row per API response page." },
-  { name: "silver.*",  what: "Stg_ views: stable column names, parsed dates, typed booleans, no business logic." },
-  { name: "gold.*",    what: "dim_episode, dim_season, dim_victim, dim_antagonist, dim_method, dim_location, fct_kill." },
-  { name: "semantic",  what: "Cortex Analyst dexter_corpus model over gold — verified queries + dimensions + measures." },
+  { name: "silver.*",  what: "Staging views: stable column names, parsed dates, typed booleans, no business logic." },
+  { name: "gold.*",    what: "Six dimension tables and one kill-event fact table. Full episode, season, victim, antagonist, method, and location grain." },
+  { name: "semantic",  what: "Cortex Analyst dexter_corpus model over gold — verified queries, dimensions, and measures." },
 ];
 
 export default function ArchitecturePage() {

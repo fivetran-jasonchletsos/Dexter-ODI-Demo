@@ -24,22 +24,43 @@ html, body {
   font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* .type — Courier Prime for clinical forensic-report text */
 .type {
-  font-family: var(--font-special-elite), var(--font-jetbrains), monospace;
-  letter-spacing: 0.02em;
+  font-family: var(--font-courier), var(--font-jetbrains), "Courier New", monospace;
+  letter-spacing: 0.04em;
 }
 
 /* ────────────────────────────────────────────────────────────────────
-   Texture — humid Miami night. A blue-cast film grain over deep ink,
-   with a faint horizontal stria that suggests bay-water reflection.
+   Background — forensic lab at night.
+   Layer 1: fine grain (noise texture, slightly blue-cast)
+   Layer 2: horizontal scan lines — CRT / lab-monitor phosphor effect
+   Layer 3: very faint radial vignette — camera/microscope eyepiece
+   Layer 4: long vertical gradient — top deep ink, bottom crimson bleed
    ──────────────────────────────────────────────────────────────────── */
 
 .miami-noir {
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.05  0 0 0 0 0.10  0 0 0 0 0.20  0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"),
-    linear-gradient(180deg, rgba(0,184,169,0.012) 0%, transparent 35%, transparent 65%, rgba(163,20,35,0.018) 100%);
-  background-size: 220px 220px, 100% 100%;
-  background-position: 0 0, 0 0;
+    /* grain */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.04  0 0 0 0 0.08  0 0 0 0 0.16  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"),
+    /* scan lines — 1px dark, 3px transparent, repeating */
+    repeating-linear-gradient(
+      180deg,
+      rgba(0,0,0,0.18) 0px,
+      rgba(0,0,0,0.18) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    /* vignette */
+    radial-gradient(ellipse 120% 80% at 50% 30%, transparent 55%, rgba(0,0,0,0.55) 100%),
+    /* long vertical gradient — ink top to crimson-tinted bottom */
+    linear-gradient(180deg,
+      #06080d 0%,
+      #07090f 40%,
+      rgba(8,6,8,1) 75%,
+      rgba(15,4,6,0.98) 100%
+    );
+  background-size: 200px 200px, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0, 0 0, 0 0;
 }
 
 /* Focus */
@@ -67,7 +88,7 @@ html, body {
   width: 1.1rem;
   height: 0.32rem;
   background: #a31423;
-  box-shadow: 0 0 6px rgba(163, 20, 35, 0.45);
+  box-shadow: 0 0 8px rgba(163, 20, 35, 0.55), 0 0 2px rgba(163,20,35,0.9);
   border-radius: 1px;
 }
 
@@ -81,27 +102,38 @@ html, body {
   left: 0;
   bottom: -6px;
   width: 100%;
-  height: 4px;
-  background: #a31423;
-  box-shadow: 0 2px 8px rgba(163, 20, 35, 0.5);
+  height: 3px;
+  background: linear-gradient(90deg, #a31423 0%, #cf2030 50%, #a31423 100%);
+  box-shadow: 0 2px 10px rgba(163, 20, 35, 0.6);
 }
 
-/* Card hover — subtle, evidence-bag energy */
+/* ────────────────────────────────────────────────────────────────────
+   Evidence card — forensic lab specimen card.
+   Slightly cooler border, inner glow on hover to suggest illuminated
+   light box / examination tray.
+   ──────────────────────────────────────────────────────────────────── */
+
 .evidence-card {
   transition:
     transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 350ms;
-  border: 1px solid rgba(231, 224, 201, 0.10);
-  background: rgba(12, 16, 24, 0.55);
+  border: 1px solid rgba(212, 208, 196, 0.09);
+  background: rgba(10, 13, 20, 0.7);
+  /* subtle inner top highlight — like a specimen tray under bright lab light */
+  box-shadow:
+    inset 0 1px 0 rgba(212,208,196,0.04),
+    0 2px 8px rgba(0,0,0,0.4);
 }
 .evidence-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(163, 20, 35, 0.45);
+  transform: translateY(-2px);
+  border-color: rgba(163, 20, 35, 0.5);
   box-shadow:
-    0 6px 18px rgba(0,0,0,0.55),
-    0 18px 40px rgba(0,0,0,0.55),
-    0 1px 2px rgba(163,20,35,0.30);
+    inset 0 1px 0 rgba(163,20,35,0.06),
+    0 6px 20px rgba(0,0,0,0.6),
+    0 20px 45px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(163,20,35,0.08),
+    0 0 30px rgba(163,20,35,0.06);
 }
 
 /* Section ornament */
@@ -115,58 +147,66 @@ html, body {
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(231,224,201,0.10);
+  background: linear-gradient(90deg, transparent, rgba(163,20,35,0.25), transparent);
 }
 
-/* Sticky meta-bar with night tint */
+/* ────────────────────────────────────────────────────────────────────
+   Sticky meta-bar — cold lab glass look.
+   ──────────────────────────────────────────────────────────────────── */
+
 .meta-bar {
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(12px) saturate(1.15);
-  -webkit-backdrop-filter: blur(12px) saturate(1.15);
-  background: rgba(6, 8, 13, 0.88);
-  border-bottom: 1px solid rgba(231, 224, 201, 0.10);
+  backdrop-filter: blur(16px) saturate(1.3) brightness(0.95);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3) brightness(0.95);
+  background: rgba(5, 7, 12, 0.92);
+  border-bottom: 1px solid rgba(163, 20, 35, 0.18);
+  box-shadow: 0 1px 0 rgba(163,20,35,0.08), 0 4px 20px rgba(0,0,0,0.6);
 }
 
-/* Subtle flicker on the brand mark */
+/* Brand mark flicker — like a VHS playback or faulty lab monitor */
 @keyframes flicker {
   0%, 100%   { opacity: 1; }
   47%        { opacity: 1; }
-  48%        { opacity: 0.85; }
+  48%        { opacity: 0.82; }
   49%        { opacity: 1; }
   82%        { opacity: 1; }
-  83%        { opacity: 0.92; }
+  83%        { opacity: 0.9; }
   84%        { opacity: 1; }
+  93%        { opacity: 0.95; }
+  94%        { opacity: 1; }
 }
 .flicker {
-  animation: flicker 6s infinite;
+  animation: flicker 8s infinite;
 }
 
-/* Pill — used for canon / season tags */
+/* Pill — specimen / evidence tags */
 .pill {
   display: inline-flex;
   align-items: center;
   padding: 0.15rem 0.55rem;
-  border: 1px solid rgba(231, 224, 201, 0.15);
-  border-radius: 999px;
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  border: 1px solid rgba(212, 208, 196, 0.14);
+  border-radius: 2px;
+  font-family: var(--font-courier), var(--font-jetbrains), monospace;
   font-size: 0.65rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(231, 224, 201, 0.72);
+  color: rgba(212, 208, 196, 0.68);
+  background: rgba(212,208,196,0.03);
 }
 .pill--slide {
-  border-color: rgba(163, 20, 35, 0.45);
-  color: #e9b8bd;
-  background: rgba(163, 20, 35, 0.08);
+  border-color: rgba(163, 20, 35, 0.50);
+  color: #f0b8bc;
+  background: rgba(163, 20, 35, 0.10);
 }
 .pill--neon {
-  border-color: rgba(0, 184, 169, 0.35);
-  color: rgba(140, 220, 210, 0.95);
+  border-color: rgba(0, 184, 169, 0.40);
+  color: rgba(140, 225, 215, 0.95);
+  background: rgba(0,184,169,0.05);
 }
 
-/* Code-of-Harry compliance dots */
+/* Code-of-Harry compliance indicators */
 .code-dot {
   display: inline-block;
   width: 0.55rem;
@@ -174,13 +214,11 @@ html, body {
   border-radius: 999px;
   vertical-align: -0.1em;
 }
-.code-dot--yes { background: #00b8a9; box-shadow: 0 0 6px rgba(0,184,169,0.55); }
-.code-dot--no  { background: #cf2030; box-shadow: 0 0 6px rgba(207,32,48,0.6); }
+.code-dot--yes { background: #00b8a9; box-shadow: 0 0 6px rgba(0,184,169,0.6); }
+.code-dot--no  { background: #cf2030; box-shadow: 0 0 6px rgba(207,32,48,0.65); }
 
 /* ────────────────────────────────────────────────────────────────────
-   Blood spatter — an SVG splatter usable as a section background or
-   as an absolutely-positioned decoration. Built from layered radial
-   gradients (cheap, no image) plus a single hand-drawn SVG splat.
+   Blood spatter — radial dot clusters simulating cast-off pattern.
    ──────────────────────────────────────────────────────────────────── */
 
 .blood-spatter {
@@ -192,32 +230,34 @@ html, body {
   inset: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(163,20,35,0.55) 0 2px, transparent 3px),
-    radial-gradient(circle at 18% 22%, rgba(163,20,35,0.40) 0 5px, transparent 6px),
-    radial-gradient(circle at 22% 12%, rgba(163,20,35,0.30) 0 3px, transparent 4px),
-    radial-gradient(circle at 14% 35%, rgba(163,20,35,0.22) 0 2px, transparent 3px),
-    radial-gradient(circle at 80% 78%, rgba(163,20,35,0.45) 0 4px, transparent 5px),
-    radial-gradient(circle at 86% 82%, rgba(163,20,35,0.35) 0 2px, transparent 3px),
-    radial-gradient(circle at 90% 70%, rgba(163,20,35,0.28) 0 3px, transparent 4px),
-    radial-gradient(circle at 70% 88%, rgba(163,20,35,0.25) 0 2px, transparent 3px),
-    radial-gradient(circle at 50% 5%,  rgba(163,20,35,0.40) 0 2px, transparent 3px),
-    radial-gradient(circle at 95% 30%, rgba(163,20,35,0.35) 0 3px, transparent 4px);
+    radial-gradient(circle at 12% 18%, rgba(163,20,35,0.60) 0 2px, transparent 3px),
+    radial-gradient(circle at 18% 22%, rgba(163,20,35,0.45) 0 5px, transparent 6px),
+    radial-gradient(circle at 22% 12%, rgba(163,20,35,0.35) 0 3px, transparent 4px),
+    radial-gradient(circle at 14% 35%, rgba(163,20,35,0.25) 0 2px, transparent 3px),
+    radial-gradient(circle at 9% 28%,  rgba(163,20,35,0.18) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 80% 78%, rgba(163,20,35,0.50) 0 4px, transparent 5px),
+    radial-gradient(circle at 86% 82%, rgba(163,20,35,0.38) 0 2px, transparent 3px),
+    radial-gradient(circle at 90% 70%, rgba(163,20,35,0.30) 0 3px, transparent 4px),
+    radial-gradient(circle at 70% 88%, rgba(163,20,35,0.28) 0 2px, transparent 3px),
+    radial-gradient(circle at 50% 5%,  rgba(163,20,35,0.42) 0 2px, transparent 3px),
+    radial-gradient(circle at 95% 30%, rgba(163,20,35,0.38) 0 3px, transparent 4px),
+    radial-gradient(circle at 3% 55%,  rgba(163,20,35,0.20) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 97% 55%, rgba(163,20,35,0.22) 0 2px, transparent 3px);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   mix-blend-mode: screen;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-/* Top-edge blood drip — drawn with an SVG path; placed inside a card
-   with overflow:hidden + position:relative. */
+/* Top-edge blood drip */
 .blood-drip-top {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 14px;
-  background: #a31423;
-  box-shadow: 0 2px 6px rgba(163,20,35,0.45);
+  height: 12px;
+  background: linear-gradient(90deg, #8a1020 0%, #a31423 30%, #cf2030 55%, #a31423 75%, #8a1020 100%);
+  box-shadow: 0 2px 8px rgba(163,20,35,0.55), 0 0 20px rgba(163,20,35,0.25);
 }
 .blood-drip-top::after {
   content: "";
@@ -236,10 +276,14 @@ html, body {
     radial-gradient(circle at 94% 100%, #a31423 0 3px, transparent 4px);
 }
 
-/* Evidence-photo bracket corners — small red Ls in each corner. */
+/* ────────────────────────────────────────────────────────────────────
+   Evidence-photo bracket corners.
+   Red L-brackets — crime scene photography convention.
+   ──────────────────────────────────────────────────────────────────── */
+
 .evidence-frame {
   position: relative;
-  border: 2px solid rgba(231, 224, 201, 0.10);
+  border: 1px solid rgba(231, 224, 201, 0.08);
   background: #06080d;
   padding: 0.5rem;
 }
@@ -249,9 +293,9 @@ html, body {
 .evidence-frame > .corner-br {
   content: "";
   position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: #a31423;
+  width: 16px;
+  height: 16px;
+  border-color: #cf2030;
   border-style: solid;
 }
 .evidence-frame::before    { top: -2px;    left: -2px;    border-width: 2px 0 0 2px; }
@@ -259,11 +303,106 @@ html, body {
 .evidence-frame .corner-tl { bottom: -2px; left: -2px;    border-width: 0 0 2px 2px; }
 .evidence-frame .corner-br { bottom: -2px; right: -2px;   border-width: 0 2px 2px 0; }
 
-/* Dedication-card flicker — slower, more deliberate than the brand mark. */
+/* ────────────────────────────────────────────────────────────────────
+   Forensic crosshair — overlays the hero background.
+   A faint targeting reticle: one vertical + one horizontal hairline
+   meeting at center, plus a small central circle.
+   ──────────────────────────────────────────────────────────────────── */
+
+.forensic-reticle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    /* vertical center hairline */
+    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(163,20,35,0.07) calc(50% - 0.5px), rgba(163,20,35,0.07) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    /* horizontal center hairline */
+    linear-gradient(0deg, transparent calc(50% - 0.5px), rgba(163,20,35,0.07) calc(50% - 0.5px), rgba(163,20,35,0.07) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    /* fine grid lines — 80px intervals, very faint */
+    repeating-linear-gradient(90deg, rgba(212,208,196,0.025) 0px, rgba(212,208,196,0.025) 1px, transparent 1px, transparent 80px),
+    repeating-linear-gradient(0deg,  rgba(212,208,196,0.025) 0px, rgba(212,208,196,0.025) 1px, transparent 1px, transparent 80px);
+}
+
+/* Dedication-card pulse — blood-slide red glow, slow. */
 @keyframes pulse-blood {
-  0%, 100% { box-shadow: 0 0 0 rgba(163,20,35,0); }
-  50%      { box-shadow: 0 0 18px rgba(163,20,35,0.35); }
+  0%, 100% { box-shadow: 0 0 0 rgba(163,20,35,0), inset 0 1px 0 rgba(163,20,35,0.04); }
+  50%      { box-shadow: 0 0 24px rgba(163,20,35,0.30), inset 0 1px 0 rgba(163,20,35,0.08); }
 }
 .pulse-blood {
-  animation: pulse-blood 4.5s ease-in-out infinite;
+  animation: pulse-blood 5s ease-in-out infinite;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   Orchestrated page-load — staggered reveal.
+   ──────────────────────────────────────────────────────────────────── */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: fade-up 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.reveal-1 { animation-delay: 60ms; }
+.reveal-2 { animation-delay: 200ms; }
+.reveal-3 { animation-delay: 360ms; }
+.reveal-4 { animation-delay: 500ms; }
+.reveal-5 { animation-delay: 650ms; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; animation: none; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar              { width: 8px; height: 8px; }
+::-webkit-scrollbar-track        { background: #06080d; }
+::-webkit-scrollbar-thumb        { background: #1c1f28; border: 2px solid #06080d; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover  { background: #2a2d38; }
+::-webkit-scrollbar-corner       { background: #06080d; }
+html { scrollbar-color: #1c1f28 #06080d; scrollbar-width: thin; }
+
+/* Active-nav indicator — blood-slide bar. */
+.nav-active {
+  position: relative;
+}
+.nav-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 2px;
+  background: linear-gradient(90deg, #a31423, #cf2030);
+  box-shadow: 0 0 8px rgba(163, 20, 35, 0.55);
+  transform: rotate(-0.8deg);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   Specimen rule — thin horizontal rule with blood-slide accent.
+   Usage: <hr class="specimen-rule" />
+   ──────────────────────────────────────────────────────────────────── */
+
+.specimen-rule {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(163,20,35,0.35) 25%, rgba(163,20,35,0.50) 50%, rgba(163,20,35,0.35) 75%, transparent 100%);
+  margin: 2rem 0;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   Scan badge — small amber specimen-number tag (lab phosphor color).
+   Use for row counts, evidence IDs.
+   ──────────────────────────────────────────────────────────────────── */
+
+.scan-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid rgba(184, 160, 96, 0.30);
+  border-radius: 2px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: rgba(184, 160, 96, 0.80);
+  background: rgba(184, 160, 96, 0.06);
 }

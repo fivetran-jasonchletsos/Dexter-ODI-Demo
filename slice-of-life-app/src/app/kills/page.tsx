@@ -61,12 +61,13 @@ export default function KillsPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-          <p className="type text-[10px] uppercase tracking-[0.25em] text-ash/55">
-            {filtered.length} of {kills.length} shown
+          <p className="type text-[10px] uppercase tracking-[0.25em] text-ash/50">
+            <span className="scan-badge mr-2">{filtered.length}</span>
+            <span className="text-ash/40">of {kills.length} specimens</span>
           </p>
           <button
             onClick={surpriseMe}
-            className="px-4 py-2 type uppercase tracking-[0.2em] text-[11px] bg-slide text-bone hover:bg-signal transition border border-signal/40"
+            className="px-4 py-2 type uppercase tracking-[0.2em] text-[11px] bg-slide text-bone hover:bg-signal transition border border-signal/40 hover:border-signal"
           >
             Pull a slide ▸
           </button>

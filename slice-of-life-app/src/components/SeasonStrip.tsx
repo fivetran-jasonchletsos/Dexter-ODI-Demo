@@ -12,6 +12,7 @@ export default function SeasonStrip() {
   return (
     <section className="px-5 py-12 sm:px-6 sm:py-16 md:px-16 md:py-20">
       <div className="mx-auto max-w-7xl">
+        <hr className="specimen-rule mb-8" />
         <div className="mb-3 section-ornament">
           <span className="type text-[11px] uppercase tracking-[0.35em] text-signal">Kills by season</span>
         </div>

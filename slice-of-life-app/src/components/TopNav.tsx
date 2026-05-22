@@ -27,13 +27,15 @@ export default function TopNav() {
       <div className="mx-auto flex max-w-7xl items-center gap-x-6 gap-y-2 px-4 py-3 overflow-x-auto sm:px-6 sm:py-4 md:px-10">
         <Link href="/" className="flex-none flex items-center gap-2.5 text-bone hover:text-signal focus:outline-none focus:ring-2 focus:ring-slide/40">
           <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true" className="flex-none flicker">
-            <rect x="3" y="3" width="26" height="26" rx="2" fill="#06080d" stroke="#e7e0c9" strokeWidth="0.5" opacity="0.85" />
-            <rect x="7" y="14" width="18" height="4" rx="0.5" fill="#a31423" transform="rotate(-6 16 16)" />
-            <circle cx="22" cy="9" r="1" fill="#a31423" opacity="0.55" />
-            <circle cx="10" cy="23" r="0.8" fill="#a31423" opacity="0.4" />
+            <rect x="3" y="3" width="26" height="26" rx="1" fill="#06080d" stroke="rgba(163,20,35,0.45)" strokeWidth="1" />
+            <rect x="7" y="14" width="18" height="4" rx="0" fill="#a31423" transform="rotate(-6 16 16)" />
+            <circle cx="22" cy="9" r="1.2" fill="#cf2030" opacity="0.7" />
+            <circle cx="10" cy="23" r="0.9" fill="#a31423" opacity="0.5" />
+            <line x1="3" y1="3" x2="8" y2="8" stroke="rgba(163,20,35,0.3)" strokeWidth="0.5" />
+            <line x1="29" y1="3" x2="24" y2="8" stroke="rgba(163,20,35,0.3)" strokeWidth="0.5" />
           </svg>
           <span className="serif text-base sm:text-lg leading-none">Slice of Life</span>
-          <span className="hidden sm:inline type text-[10px] text-ash/55 leading-none">/ Archive</span>
+          <span className="hidden sm:inline type text-[10px] text-ash/50 leading-none tracking-widest">/ Archive</span>
         </Link>
         <nav aria-label="Primary" className="flex flex-1 flex-nowrap items-center gap-x-4 sm:gap-x-6">
           {NAV.map((n) => {
@@ -48,7 +50,7 @@ export default function TopNav() {
                 <span className={`font-mono text-xs tracking-[0.25em] uppercase ${a ? "text-signal" : "text-signal/45"}`}>
                   {n.num}
                 </span>
-                <span className={`serif text-base sm:text-lg transition-colors ${a ? "text-bone" : "text-ash/65 group-hover:text-bone"}`}>
+                <span className={`serif text-base sm:text-lg transition-colors ${a ? "nav-active text-bone" : "text-ash/65 group-hover:text-bone"}`}>
                   {n.label}
                 </span>
               </Link>
