@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: fandom
+    database: slice_of_life
+    schema: bronze_fandom
+    description: "Dexter Fandom Wiki — pages parsed via MediaWiki API, landed by Fivetran HTTP source."
+    tables:
+      - { name: kill_page,        description: "One row per Fandom 'X (victim)' wiki page." }
+      - { name: episode_page,     description: "One row per Fandom episode page." }
+      - { name: character_page,   description: "One row per Fandom character page (victims, antagonists, recurring)." }
+      - { name: infobox_attribute, description: "Wide-to-long attributes parsed from Fandom infoboxes." }
+
+  - name: tmdb
+    database: slice_of_life
+    schema: bronze_tmdb
+    description: "TMDB episode metadata + guest cast for season antagonists."
+    tables:
+      - { name: tv_series }
+      - { name: season }
+      - { name: episode }
+      - { name: cast_credit }
+      - { name: crew_credit }
+
+  - name: wikidata
+    database: slice_of_life
+    schema: bronze_wikidata
+    description: "Wikidata SPARQL — antagonist arcs, real-world Miami locations, cross-show links."
+    tables:
+      - { name: character }
+      - { name: place }
+      - { name: cross_show_link }

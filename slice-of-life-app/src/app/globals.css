@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  background: #06080d;
+  color: #e7e0c9;
+  font-family: ui-sans-serif, system-ui, -apple-system, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+.serif {
+  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
+  letter-spacing: 0.005em;
+}
+
+.font-mono,
+[class*="font-mono"] {
+  font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.type {
+  font-family: var(--font-special-elite), var(--font-jetbrains), monospace;
+  letter-spacing: 0.02em;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   Texture — humid Miami night. A blue-cast film grain over deep ink,
+   with a faint horizontal stria that suggests bay-water reflection.
+   ──────────────────────────────────────────────────────────────────── */
+
+.miami-noir {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.05  0 0 0 0 0.10  0 0 0 0 0.20  0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, rgba(0,184,169,0.012) 0%, transparent 35%, transparent 65%, rgba(163,20,35,0.018) 100%);
+  background-size: 220px 220px, 100% 100%;
+  background-position: 0 0, 0 0;
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid rgba(163, 20, 35, 0.75);
+  outline-offset: 3px;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   The blood slide — a small horizontal red rectangle that acts as a
+   typographic mark, echoing the show's title cards.
+   ──────────────────────────────────────────────────────────────────── */
+
+.slide-mark {
+  position: relative;
+  display: inline-block;
+  padding-left: 1.5rem;
+}
+.slide-mark::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(-2deg);
+  width: 1.1rem;
+  height: 0.32rem;
+  background: #a31423;
+  box-shadow: 0 0 6px rgba(163, 20, 35, 0.45);
+  border-radius: 1px;
+}
+
+.slide-underline {
+  position: relative;
+  display: inline;
+}
+.slide-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 4px;
+  background: #a31423;
+  box-shadow: 0 2px 8px rgba(163, 20, 35, 0.5);
+}
+
+/* Card hover — subtle, evidence-bag energy */
+.evidence-card {
+  transition:
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 350ms;
+  border: 1px solid rgba(231, 224, 201, 0.10);
+  background: rgba(12, 16, 24, 0.55);
+}
+.evidence-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(163, 20, 35, 0.45);
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.55),
+    0 18px 40px rgba(0,0,0,0.55),
+    0 1px 2px rgba(163,20,35,0.30);
+}
+
+/* Section ornament */
+.section-ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-ornament::before,
+.section-ornament::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(231,224,201,0.10);
+}
+
+/* Sticky meta-bar with night tint */
+.meta-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(12px) saturate(1.15);
+  -webkit-backdrop-filter: blur(12px) saturate(1.15);
+  background: rgba(6, 8, 13, 0.88);
+  border-bottom: 1px solid rgba(231, 224, 201, 0.10);
+}
+
+/* Subtle flicker on the brand mark */
+@keyframes flicker {
+  0%, 100%   { opacity: 1; }
+  47%        { opacity: 1; }
+  48%        { opacity: 0.85; }
+  49%        { opacity: 1; }
+  82%        { opacity: 1; }
+  83%        { opacity: 0.92; }
+  84%        { opacity: 1; }
+}
+.flicker {
+  animation: flicker 6s infinite;
+}
+
+/* Pill — used for canon / season tags */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid rgba(231, 224, 201, 0.15);
+  border-radius: 999px;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(231, 224, 201, 0.72);
+}
+.pill--slide {
+  border-color: rgba(163, 20, 35, 0.45);
+  color: #e9b8bd;
+  background: rgba(163, 20, 35, 0.08);
+}
+.pill--neon {
+  border-color: rgba(0, 184, 169, 0.35);
+  color: rgba(140, 220, 210, 0.95);
+}
+
+/* Code-of-Harry compliance dots */
+.code-dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  vertical-align: -0.1em;
+}
+.code-dot--yes { background: #00b8a9; box-shadow: 0 0 6px rgba(0,184,169,0.55); }
+.code-dot--no  { background: #cf2030; box-shadow: 0 0 6px rgba(207,32,48,0.6); }

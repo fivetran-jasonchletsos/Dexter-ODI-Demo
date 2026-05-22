@@ -1,0 +1,132 @@
+# Snowflake Cortex Analyst semantic model.
+#
+# Load this in Snowsight: Cortex Analyst → Create service → upload this
+# YAML. Point it at slice_of_life.gold. The model exposes the kill fact
+# table and its dimensions, with example questions to anchor the LLM.
+
+name: dexter_corpus
+description: |
+  On-screen kills by Dexter Morgan across the Showtime canon: the
+  original series (2006-2013), New Blood (2021), and Original Sin (2024).
+  One row per kill in fct_kill, joinable to victim biographies, episode
+  metadata, controlled-vocabulary methods and locations, and season
+  antagonist arcs.
+
+tables:
+  - name: fct_kill
+    base_table:
+      database: slice_of_life
+      schema:   gold
+      table:    fct_kill
+    primary_key:
+      columns: [kill_sk]
+
+    dimensions:
+      - name: canon
+        expr: canon
+        data_type: text
+        synonyms: ["series", "show", "production"]
+        description: "Which canon: original, new_blood, original_sin."
+        sample_values: ["original", "new_blood", "original_sin"]
+      - name: season_number
+        expr: season_number
+        data_type: number
+      - name: episode_number
+        expr: episode_number
+        data_type: number
+      - name: method_key
+        expr: method_key
+        data_type: text
+        synonyms: ["how he killed them", "method", "kill technique"]
+        sample_values: ["lethal_injection_m99", "knife", "strangulation", "bone_saw", "firearm", "fire", "explosion", "blunt_force"]
+      - name: location_key
+        expr: location_key
+        data_type: text
+        synonyms: ["kill site", "where the kill happened"]
+      - name: disposal_key
+        expr: disposal_key
+        data_type: text
+        synonyms: ["body dump", "disposal site", "where the body went"]
+        sample_values: ["open_water", "iron_lake", "fire", "buried", "left_at_scene"]
+      - name: victim_type
+        expr: victim_type
+        data_type: text
+        synonyms: ["who the victim was"]
+        sample_values: ["serial_killer", "murderer", "predator", "trafficker", "other_violent", "unknown"]
+      - name: was_season_antagonist
+        expr: was_season_antagonist
+        data_type: boolean
+        synonyms: ["big bad", "season villain"]
+      - name: victim_was_serial_killer
+        expr: victim_was_serial_killer
+        data_type: boolean
+      - name: code_of_harry_compliant
+        expr: code_of_harry_compliant
+        data_type: boolean
+        synonyms: ["Harry's Code", "followed the code", "code-compliant"]
+
+    time_dimensions:
+      - name: aired_on
+        expr: aired_on
+        data_type: date
+
+    measures:
+      - name: kill_count
+        expr: kill_sk
+        data_type: number
+        default_aggregation: count
+        synonyms: ["number of kills", "kills"]
+      - name: serial_killer_victim_count
+        expr: case when victim_was_serial_killer then 1 else 0 end
+        data_type: number
+        default_aggregation: sum
+      - name: code_compliant_count
+        expr: case when code_of_harry_compliant then 1 else 0 end
+        data_type: number
+        default_aggregation: sum
+      - name: code_compliance_rate
+        expr: avg(case when code_of_harry_compliant then 1.0 else 0.0 end)
+        data_type: number
+
+verified_queries:
+  - name: kills_by_season
+    question: "How many kills did Dexter commit each season?"
+    sql: |
+      select canon, season_number, count(*) as kill_count
+      from slice_of_life.gold.fct_kill
+      group by canon, season_number
+      order by canon, season_number;
+  - name: method_mix_by_season
+    question: "What is the method mix for each season?"
+    sql: |
+      select canon, season_number, method_key, count(*) as kills
+      from slice_of_life.gold.fct_kill
+      group by canon, season_number, method_key
+      order by canon, season_number, kills desc;
+  - name: code_compliance_by_season
+    question: "Which seasons had the highest Code of Harry compliance rate?"
+    sql: |
+      select canon, season_number,
+             count(*) as kills,
+             sum(case when code_of_harry_compliant then 1 else 0 end) as compliant,
+             avg(case when code_of_harry_compliant then 1.0 else 0.0 end) as compliance_rate
+      from slice_of_life.gold.fct_kill
+      group by canon, season_number
+      order by compliance_rate desc;
+  - name: serial_killer_share
+    question: "What share of Dexter's victims in each season were themselves serial killers?"
+    sql: |
+      select canon, season_number,
+             count(*) as kills,
+             sum(case when victim_was_serial_killer then 1 else 0 end) as sk_victims,
+             avg(case when victim_was_serial_killer then 1.0 else 0.0 end) as sk_victim_share
+      from slice_of_life.gold.fct_kill
+      group by canon, season_number
+      order by canon, season_number;
+  - name: trinity_avenged
+    question: "Of victims linked to the Trinity Killer season arc, which ones did Dexter kill in a Code-compliant way?"
+    sql: |
+      select kill_sk, victim_name, method_key, code_of_harry_compliant
+      from slice_of_life.gold.fct_kill
+      where canon = 'original' and season_number = 4
+      order by episode_number;

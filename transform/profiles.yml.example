@@ -1,0 +1,13 @@
+slice_of_life:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account:   "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user:      "{{ env_var('SNOWFLAKE_USER') }}"
+      password:  "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role:      dbt_runner
+      database:  slice_of_life
+      warehouse: slice_of_life_wh
+      schema:    silver
+      threads:   4

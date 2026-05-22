@@ -1,0 +1,24 @@
+name: slice_of_life
+version: '1.0.0'
+config-version: 2
+
+profile: slice_of_life
+
+model-paths: ["models"]
+test-paths:  ["tests"]
+seed-paths:  ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  slice_of_life:
+    silver:
+      +materialized: view
+      +schema: silver
+    gold:
+      +materialized: dynamic_table
+      +target_lag: '1 hour'
+      +snowflake_warehouse: slice_of_life_wh
+      +schema: gold

@@ -1,0 +1,26 @@
+version: 2
+
+seeds:
+  - name: dexter_kills
+    description: "Curated canonical Dexter Morgan on-screen kills across the original series, New Blood, and Original Sin. Used as a fixture so the demo can run end-to-end without the live Fandom pull."
+    config:
+      schema: bronze_fandom
+      column_types:
+        season_number:  number
+        episode_number: number
+        code_of_harry_flag: boolean
+  - name: dexter_antagonists
+    description: "Season antagonists keyed to Wikidata QIDs."
+    config:
+      schema: bronze_wikidata
+      column_types:
+        season_number: number
+  - name: dexter_episodes
+    description: "Episode metadata fixture for kill-bearing episodes across all three canons."
+    config:
+      schema: bronze_tmdb
+      column_types:
+        season_number:   number
+        episode_number:  number
+        runtime_minutes: number
+        aired_on:        date

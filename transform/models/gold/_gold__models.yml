@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: dim_episode
+    description: "One row per Dexter franchise episode (S1-S8, New Blood, Original Sin)."
+    columns:
+      - { name: episode_sk,     tests: [unique, not_null] }
+      - { name: tmdb_episode_id, tests: [not_null] }
+  - name: dim_season
+    description: "One row per (canon, season) with the season's named antagonist."
+    columns:
+      - { name: season_sk, tests: [unique, not_null] }
+  - name: dim_victim
+    description: "One row per victim of an on-screen Dexter kill."
+    columns:
+      - { name: victim_sk, tests: [unique, not_null] }
+      - { name: fandom_kill_id, tests: [unique, not_null] }
+  - name: dim_antagonist
+    description: "Season Big Bads — Ice Truck Killer, Bay Harbor Butcher arc, Trinity, Lumen / Barrel Girls, Doomsday, Wayne Randall, Hannah arc, Brain Surgeon, Kurt Caldwell, Harry/Original Sin."
+    columns:
+      - { name: antagonist_sk, tests: [unique, not_null] }
+      - { name: wikidata_qid,  tests: [unique, not_null] }
+  - name: dim_method
+    description: "Controlled vocabulary for kill method: M99, knife, strangulation, bone saw, firearm, fire, explosion, blunt force, drowning, fall, other."
+    columns:
+      - { name: method_sk, tests: [unique, not_null] }
+  - name: dim_location
+    description: "Controlled vocabulary for kill site: boat/marina, open water, kill room, Iron Lake woods, residence, warehouse, hotel/motel, police facility, vehicle/road, other."
+    columns:
+      - { name: location_sk, tests: [unique, not_null] }
+  - name: fct_kill
+    description: "One row per Dexter Morgan on-screen kill across the full canon."
+    columns:
+      - { name: kill_sk,    tests: [unique, not_null] }
+      - { name: victim_sk,  tests: [not_null] }
+      - { name: episode_sk, tests: [not_null] }
+
+semantic_models:
+  - name: dexter_corpus
+    label: Dexter kill corpus
+    model: ref('fct_kill')
+    description: "The kill-level fact table Cortex Analyst answers natural-language questions against."
+    measures:
+      - name: kill_count
+        agg: count
+        expr: kill_sk
+      - name: serial_killer_victim_count
+        agg: sum
+        expr: case when victim_was_serial_killer then 1 else 0 end
+      - name: code_compliant_count
+        agg: sum
+        expr: case when code_of_harry_compliant then 1 else 0 end
+    dimensions:
+      - { name: canon }
+      - { name: season_number }
+      - { name: method_key }
+      - { name: location_key }
+      - { name: disposal_key }
+      - { name: victim_type }
+      - { name: was_season_antagonist }
+      - { name: aired_on, type: time, type_params: { time_granularity: day } }
